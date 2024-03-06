@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<div th:replace="~{administrator/template_admin.html :: header}" class="container-header"></div>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<!--<a th:href="@{/}" class="btn btn-light btn-xs" style="margin-top: 10px; margin-left: 250px;">&laquo; Volver</a>-->
+	<ol class="breadcrumb" style="margin-top: 10px; margin-left: 250px;">
+		<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+		<li class="breadcrumb-item active">Products List</li>
+	</ol>
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+					<a th:href="@{/products/form}" class="btn btn-primary">Create Product</a>
+				</h4>
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${products != null}" th:each="product: ${products}">
+							<td> <a class="btn btn-primary btn-xs" th:href="@{/products/view/} + ${product.id}"
+									th:text="${product.id}"></a></td>
+							<td th:text="${product.desc_product}"></td>
+							<td>
+								<div class="d-flex align-items-center">
+									<!-- Descripción de la categoría -->
+
+									<!-- Agregar un margen a la derecha para separar la descripción de la imagen -->
+									<div class="ml-auto mr-3"></div>
+									<!-- Agregar la imagen aquí -->
+									<img th:src="@{'/uploads/' + ${product.foto}}" th:alt="${product.foto}" class="mr-2"
+										style="max-width: 50px; max-height: 50px;">
+								</div>
+							</td>
+							<td><a class="btn btn-primary btn-sm" th:href="@{/products/edit/} + ${product.id}"
+									th:text="'edit'"></a></td>
+							<th><a class="btn btn-danger btn-sm" th:href="@{/products/delete/} + ${product.id}"
+									th:text="'delete'"
+									onclick="return confirm('Are you sure want to delete this product');">Delete</a>
+							</th>
+
+						</tr>
+						<tr th:unless="${products != null}">
+							<td colspan="5" class="text-center">No products available</td>
+						</tr>
+
+					</tbody>
+
+				</table>
+
+				 <nav th:if="${products != null}" th:replace="paginator-nav :: paginator"></nav>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>

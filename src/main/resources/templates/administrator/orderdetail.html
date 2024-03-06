@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Spring eCommerce</title>
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<div th:replace="~{administrator/template_admin.html :: header}" class="container-header"></div>
+
+	<header th:replace="layout/layout :: header"></header>
+	
+
+    <!-- Page Content -->
+    <div class="container">
+
+	  <ol class="breadcrumb" style="margin-top: 10px;">
+      	 <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+         <li class="breadcrumb-item"><a th:href="@{/administrator/orders}">Shopping</a></li>
+        <li class="breadcrumb-item active">Shopping Details</li>
+      </ol>
+
+      <!-- Page Heading/Breadcrumbs -->
+      <h1 class="mt-4 mb-3">
+        Spring eCommerce <small>Details</small>
+      </h1>
+
+     
+
+      <!-- Blog Post -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+           <div class="col-lg-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Product</th>                  
+                  <th scope="col">Price</th>
+                  <th scope="col">Total</th>                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="detail:${details}">
+                  <td th:text="${detail.quantity}"></td>
+                  <td th:text="${detail.name}"></td>
+                  <td th:text="${detail.price}"></td>
+                  <td th:text="${detail.total}" ></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container -->
+
+<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>
+

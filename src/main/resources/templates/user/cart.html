@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://thymeleaf.org/extras/spring-security">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<div th:insert="~{user/template_user.html::header-user}" sec:authorize="hasRole('ROLE_USER')"></div>
+	<div th:insert="~{user/template_admin.html::header-user}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
+	<div th:insert="~{user/template_user.html::header}" sec:authorize="!isAuthenticated()"></div>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<!-- Navigation -->
+
+	<!-- Div de encabezado para usuarios sin sesión (cuando la sesión es nula) -->
+	<!--<div th:insert="~{usuario/template_user.html::header}"></div>-->
+	<!-- <div th:insert="~{user/template_user.html::header}" th:if="${session.idusuario == null}"></div>-->
+
+	<!-- Div de encabezado para usuarios con sesión (cuando la sesión no es nula) -->
+	<!--
+<div th:insert="~{user/template_user.html::header-user}" th:unless="${session.idusuario== null}"></div>-->
+
+
+	<!-- Page Content -->
+	<div class="container">
+
+
+
+
+		<ol class="breadcrumb" style="margin-top: 10px; ">
+			<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+			<li class="breadcrumb-item active">Cart</li>
+		</ol>
+
+		<!-- Blog Post -->
+		<div class="card mb-4">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-lg-9">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Product</th>
+									<th scope="col">Price</th>
+									<th scope="col">Quantity</th>
+									<th scope="col">Total</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+
+
+							<tbody>
+								<tr th:each="dorder:${cart}">
+									<td th:text="${dorder.name}"></td>
+									<td th:text="${dorder.price}"></td>
+									<td th:text="${dorder.quantity}"></td>
+									<td th:text="${dorder.total}"></td>
+
+									<td><a th:href="@{/delete/cart/{id}(id=${dorder.product.id})}" class="btn btn-danger">Quitar</a></td> 
+
+
+
+								</tr>
+							</tbody>
+
+
+
+						</table>
+					</div>
+
+					<div class="col-lg-3">
+						<h2 class="card-title">SUBTOTAL</h2>
+
+						<ul class="list-group">
+							<li class="list-group-item">
+								<h5 th:text="${order.total}"></h5>
+							</li>
+							<a th:if="${order.total != 0}"  th:href="@{/order}" class="btn btn-dark">View Order</a>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- /.container -->
+
+		<footer th:replace="layout/layout :: footer"></footer>
+		<a th:href="@{/}" class="btn btn-light btn-xs" style="margin-top: 10px;">&laquo; Return</a>
+
+</body>
+
+</html>

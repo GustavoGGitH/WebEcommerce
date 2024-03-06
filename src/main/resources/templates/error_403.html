@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<div th:insert="~{user/template_user.html::header-user}" sec:authorize="hasRole('ROLE_USER')"></div>
+	<div th:insert="~{administrator/template_admin.html::header}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
+	<div th:insert="~{user/template_user.html::header}" sec:authorize="!isAuthenticated()"></div>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-danger text-white">
+			<div class="card-header">Error: Denied Access!</div>
+			<div class="card-body">
+				<h5 class="card-title">
+					We ´re sorry <span th:text="${#authentication.name}"></span>,
+					You do not have permissions to access this resource.
+				</h5>
+				<a th:href="@{/}" class="btn btn-outline-light" role="button">Go to the Start</a>
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

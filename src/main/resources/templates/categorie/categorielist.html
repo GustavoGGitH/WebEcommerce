@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://thymeleaf.org/extras/spring-security">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<div th:insert="~{user/template_user.html::header-user}" sec:authorize="hasRole('ROLE_USER')"></div>
+	<div th:insert="~{administrator/template_admin.html::header}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
+	<div th:insert="~{user/template_user.html::header}" sec:authorize="!isAuthenticated()"></div>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	 <ol class="breadcrumb" style="margin-top: 10px; margin-left: 250px;">
+        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item active">Category List</li>
+      </ol>
+	<div class="container py-4">
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+			
+				<!-- Page Features -->
+				<h4 class="card-title">
+					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/categorie/form}" class="btn btn-primary">Create
+						Category</a>
+				</h4>
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th sec:authorize="hasRole('ROLE_USER')"></th>
+							<th>description</th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')"></th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')"></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:each="categorie: ${categories}">
+							<td sec:authorize="hasRole('ROLE_USER')">
+								<a class="btn btn-primary btn-xs"
+									th:href="@{/categorie/verproxcateg/} + ${categorie.id}"
+									th:text="${categorie.id}"></a>
+							</td>
+							<td>
+								<div class="d-flex align-items-center">
+									<!-- Descripción de la categoría -->
+									<span th:text="${categorie.desc_categorie}"></span>
+									<!-- Agregar un margen a la derecha para separar la descripción de la imagen -->
+									<div class="ml-auto mr-3"></div>
+									<!-- Agregar la imagen aquí -->
+									<img th:src="@{'/uploads/' + ${categorie.foto}}" th:alt="${categorie.foto}"
+										class="mr-2" style="max-width: 50px; max-height: 50px;">
+								</div>
+							</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">
+								<a class="btn btn-primary btn-sm" th:href="@{/categorie/edit/} + ${categorie.id}"
+									th:text="'edit'"></a>
+							</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">
+								<a class="btn btn-danger btn-sm" th:href="@{/categorie/delete/} + ${categorie.id}"
+									th:text="'delete'"
+									onclick="return confirm('Estás seguro que quieres eliminar?');"></a>
+							</td>
+						</tr>
+					</tbody>
+
+
+				</table>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>

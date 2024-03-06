@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<div th:replace="~{administrator/template_admin.html :: header}" class="container-header"></div>
+
+	<header th:replace="layout/layout :: header"></header>
+  
+
+<!-- Page Content -->
+<div class="container">
+
+
+  <!-- Page Heading/Breadcrumbs -->
+
+
+  <ol class="breadcrumb"  style="margin-top: 10px;">
+    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+    <li class="breadcrumb-item active">View Users</li>
+  </ol> 	
+  <h2>Users</h2>
+  <p>Total users: <span th:text="${users.size()}"></span></p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+     
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="user:${users}">
+        <td th:text="${user.username}" ></td>
+        <td th:text="${user.email}" ></td>
+   
+      </tr>       
+    </tbody>
+  </table>
+
+</div>
+
+<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+
+</html>

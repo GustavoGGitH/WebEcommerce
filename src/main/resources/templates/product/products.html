@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<div th:replace="~{administrator/template_admin.html :: header}" class="container-header"></div>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-dark text-white">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<!-- en este punto doy todos los mensajes de error en el cabezal, de todos los campos que tengan-->
+				<div th:object="${product}" th:remove="tag">
+					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+						<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+					</ul>
+				</div>
+
+
+
+				<form th:action="@{/products/form}" th:object="${product}" method="post"
+					enctype="multipart/form-data">
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">description</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{desc_product}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('desc_product')}" th:errors="*{desc_product}"></small>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">extended description </label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{desc_extend}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('desc_extend')}" th:errors="*{desc_extend}"></small>
+						</div>
+					</div>
+
+					<div class="form-group row">
+
+						<label class="control-label col-sm-2" for="price">Price:</label>
+						<div class="col-sm-6">
+
+							<input type="text" th:field="*{precio}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></small>
+						</div>
+
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Categorie</label>
+						<div class="col-sm-6">
+							<select class="form-control" th:field="*{categorie}">
+								<option th:each="cat : ${categories}" th:value="${cat.id}"
+									th:text="${cat.desc_categorie}"></option>
+							</select>
+						</div>
+					</div>
+
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Foto</label>
+
+						<div class="col-sm-6">
+
+							<input type="file" name="file" class="form-control" />
+
+						</div>
+
+					</div>
+
+
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<input type="submit" value="Save Product" class="btn btn-secondary	" />
+						</div>
+					</div>
+					<input type="hidden" id="idProduct" name="idProduct" th:value="${product.id}" />
+
+				</form>
+				<a th:href="@{/products}" class="btn btn-light btn-xs" style="margin-top: 10px;">&laquo; Volver</a>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="Layout/Layout ::footer"></footer>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://thymeleaf.org/extras/spring-security">
+
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Spring eCommerce</title>
+
+
+	<!-- Bootstrap core CSS -->
+	<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+	<div th:insert="~{user/template_user.html::header-user}" sec:authorize="hasRole('ROLE_USER')"></div>
+	<div th:insert="~{user/template_admin.html::header-user}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
+	<div th:insert="~{user/template_user.html::header}" sec:authorize="!isAuthenticated()"></div>
+
+	<header th:replace="layout/layout :: header"></header>
+    <!-- Page Content -->
+    <div class="container">
+
+
+      <!-- Page Heading/Breadcrumbs -->
+      <h1 class="mt-4 mb-3">
+        Spring ECommerce <small>Order Summary</small>
+      </h1>
+
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item active">Order</li>
+      </ol>
+
+      <!-- Blog Post -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+           <div class="col-lg-9">
+             <div class="card-body">
+              <h5 class="card-title">
+                Order Detail
+             </h5>
+              <h6 th:text=" 'username : '+ ${user.username}"> </h6>
+              <h6 th:text="'mail: ' + ${user.email}"> </h6>
+       
+
+              <h5 class="card-title">
+                PRODUCTS
+              </h5>
+              <div class="alert alert-light" role="alert">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Product</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="dtorden:${cart}">
+                     <td th:text="${dtorden.name}" ></td>
+                     <td th:text="${dtorden.price}" ></td>
+                     <td th:text="${dtorden.quantity}" ></td>
+                     <td th:text="${dtorden.total}" ></td>
+
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+
+           </div>
+         </div>
+
+
+         <div class="col-lg-3">
+          <h2 class="card-title">Order Summary</h2>
+
+          <ul class="list-group">
+          <li class="list-group-item"><h5 th:text="'Total: '+ ${order.total}"> </h5></li>
+            <a th:href="@{/saveOrder}" class="btn btn-dark">Generar</a>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container -->
+<a th:href="@{/}" class="btn btn-light btn-xs" style="margin-top: 10px;">&laquo; Return</a>
+
+<footer th:replace="layout/layout :: footer"></footer>
+
+
+
+</body>
+
+</html>
